@@ -4,35 +4,57 @@ using namespace std;
 class Node {
 public:
     int data;
+    Node* prev;
     Node* next;
 
-    // Constructor
-    Node(int data) {
-        this->data = data;
+    // constructor
+    Node(int d) {
+        this->data = d;
+        this->prev = NULL;
         this->next = NULL;
     }
 };
 
+// Traversing a linked list
+void print(Node* &head) {
+    Node* temp = head;
+     
+    while (temp != NULL) {
+        cout << temp->data << " ";
+        temp = temp->next;
+    }
+    cout << endl;
+}
 
-// Function to insert a node at the head
-void insertAtHead(Node* &head, int d) {
-    // New node created
+// Length of a linked list
+int getLength(Node* &head) {
+    int len = 0;
+    Node* temp = head;
+     
+    while (temp != NULL) {
+        len++;
+        temp = temp->next;
+    }
+    return len;
+}
+
+//Insert at head
+void insertAtHead(Node* &head, int d){
     Node* temp = new Node(d);
     temp->next = head;
+    head->prev = temp;
     head = temp;
 }
 
-
-// Function to insert a node at the tail
-void insertAtTail(Node* &tail, int d) {
-    // New node created
+//Inserting at Tail
+void insertAtTail(Node* &tail, int d){
     Node* temp = new Node(d);
     tail->next = temp;
+    temp->prev = tail;
     tail = temp;
 }
 
-
-// Function to insert a node at a specific position
+//Inserting at position
 void insertAtPosition(Node* &tail,Node* &head, int position, int d) {
     Node* temp = head;
     int cnt = 1;
@@ -57,40 +79,30 @@ void insertAtPosition(Node* &tail,Node* &head, int position, int d) {
     // Creating a new node
     Node* nodeToInsert = new Node(d);
     nodeToInsert->next = temp->next;
+    temp->next->prev = nodeToInsert;
     temp->next = nodeToInsert;
-}
-
-
-
-
-
-// Function to print the linked list
-void print(Node* &head) {
-    Node* temp = head;
-
-    while (temp != NULL) {
-        cout << temp->data << " ";
-        temp = temp->next;
-    }
-    cout << endl;
+    nodeToInsert = temp;
 }
 
 int main() {
-    // Creating a new node
     Node* node1 = new Node(10);
     Node* head = node1;
     Node* tail = node1;
-
     print(head);
 
-    insertAtHead(head, 12);
+    //cout << getLength(head) << endl;
+
+    insertAtHead(head,8);
     print(head);
 
-    insertAtTail(tail, 14);
+    insertAtTail(tail,12);
     print(head);
 
-    insertAtPosition(tail,head, 3, 13);
+    insertAtPosition(tail,head,3,11);
     print(head);
+
+
+    
 
     return 0;
 }

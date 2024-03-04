@@ -11,6 +11,18 @@ public:
         this->data = data;
         this->next = NULL;
     }
+
+    // Destructor
+
+~ Node() {
+    int value = this->data;
+    // Memory free
+    if(this->next != NULL){
+        delete next;
+        this->next = NULL;
+    }
+    cout<<"Memory is free for node with data "<<value<<endl;
+}
 };
 
 
@@ -75,6 +87,32 @@ void print(Node* &head) {
     cout << endl;
 }
 
+void deleteNode(int position, Node* &head, Node* &tail){
+    if(position==1){
+        Node *temp = head;
+        head = head->next;
+        temp -> next = NULL;
+        delete temp;
+    }
+
+    //Deleting any middle or last node
+    Node* curr = head;
+    Node* prev = NULL;
+
+    int cnt = 1;
+    while(cnt < position){
+        prev = curr;
+        curr = curr -> next;
+        cnt++;
+    }
+    if(curr->next==NULL){
+        tail = prev;
+    }
+    prev -> next = curr -> next;
+    curr -> next = NULL;
+    delete curr;
+}
+
 int main() {
     // Creating a new node
     Node* node1 = new Node(10);
@@ -91,6 +129,12 @@ int main() {
 
     insertAtPosition(tail,head, 3, 13);
     print(head);
+    
+    deleteNode(4,head, tail);
+    print(head);
+
+    cout<<"Head of the node is "<<head -> data<<endl;
+    cout<<"Tail of the node is "<<tail -> data<<endl;
 
     return 0;
 }
